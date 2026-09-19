@@ -1,23 +1,35 @@
 "use client"
 
+import { useState } from "react"
 import { Plus } from "lucide-react"
-import { Button } from "./ui/button"
+import { GamingButton } from "@/components/shared"
+import { CreatePollModal } from "@/components/poll"
 
 interface CreatePollButtonProps {
-  matchId: string
+  matchId?: string
+  label?: string
 }
 
-export function CreatePollButton({ matchId }: CreatePollButtonProps) {
+export function CreatePollButton({ matchId, label = "Create a Prediction" }: CreatePollButtonProps) {
+  const [open, setOpen] = useState(false)
+
   return (
-    <Button
-      className="bg-gold hover:bg-gold/90 text-background font-bold uppercase tracking-wider glow-gold"
-      onClick={() => {
-        // TODO: Open create poll modal
-        alert("Create Poll feature coming soon!")
-      }}
-    >
-      <Plus className="mr-2 h-4 w-4" />
-      Create Poll
-    </Button>
+    <>
+      <GamingButton
+        variant="gold"
+        size="md"
+        onClick={() => setOpen(true)}
+      >
+        <Plus className="mr-2 h-4 w-4" />
+        {label}
+      </GamingButton>
+
+      <CreatePollModal
+        open={open}
+        onClose={() => setOpen(false)}
+        preselectedMatchId={matchId}
+      />
+    </>
   )
 }
+
